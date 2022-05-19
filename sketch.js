@@ -12,6 +12,7 @@ var start=1;
 var cols = 3;
 var rows = 3;
 var grid,coordinate,check,u1,u2,fade,fadeAmount;
+var options=4, answers
 function* yield_keyword (ARRAY) {
 	for (let i = 0; i < ARRAY.length; i++) {
 		yield ARRAY[i]
@@ -23,10 +24,11 @@ function setup ()
 	createCanvas (800, 600);
 	noStroke ();
 	grid = createArray (cols, rows);
+	answers= createArray(4)
 	for (let i = 0; i < cols; i++) {
 		for (let j= 0; j < rows ; j++) {
 			grid[i][j] = new Box((i+1) * 150, (1+j) * 150)
-		}
+			}
 	}
 	let Logics = new Logic() ;
 	Logics.logic();
@@ -47,8 +49,8 @@ function draw ()
 	if (start == 1) 
 	{
 
-//		var s = 'Start:' + mouseX +',' +mouseY
-//		text(s,400,80);
+		//		var s = 'Start:' + mouseX +',' +mouseY
+		//		text(s,400,80);
 		rectMode(CENTER);
 		fill(235, 204, 52);
 		rect(400,300,200,100);
@@ -62,8 +64,8 @@ function draw ()
 	}
 	else if( start ==2){
 
-//		var s = 'Start:' + mouseX +',' +mouseY
-//		text(s,400,80);
+		//		var s = 'Start:' + mouseX +',' +mouseY
+		//		text(s,400,80);
 		for (let i = 0; i < cols; i++) {
 			for (let j= 0; j < rows ; j++) {
 				grid[i][j].show(255);
@@ -102,12 +104,12 @@ function reset_failed_squence(){
 
 	for (let i8 = 0, len = arrcheck.length; i8 < len; i8++) {
 		if((arrcheck[i8][0]!=coordinate[i8][0]) || (arrcheck[i8][1]!=coordinate[i8][1])) {
-				console.log('Wrong sequence')
-				start=3;
-				offbutton=0;
-				break;
-			}}
-	
+			console.log('Wrong sequence')
+			start=3;
+			offbutton=0;
+			break;
+		}}
+
 
 	return;
 }
@@ -133,9 +135,9 @@ function mousePressed() {
 
 					}
 					if (pushed==0) {arrcheck.push([i,j]);
-					console.log(arrcheck);
-					breaked=1;
-					break;
+						console.log(arrcheck);
+						breaked=1;
+						break;
 					}
 
 				}
@@ -144,7 +146,7 @@ function mousePressed() {
 			if (breaked==1) break;
 
 		}
-				if (offbutton==1) reset_failed_squence();
+		if (offbutton==1) reset_failed_squence();
 	}
 
 }
