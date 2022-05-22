@@ -5,15 +5,14 @@ class	Logic {
 
 		this.Arr = []
 	}
-	logic() {
-		var level = 7
+	logic(level) {
 		var count=0
 		function random(x){
 			return Math.floor(Math.random() * x);
 		}
 		while (true){
 			let x,y,i,op=1;
-			if (this.Arr.length >=9){
+			if (this.Arr.length >=level){
 				break
 			}
 			x=random(3);

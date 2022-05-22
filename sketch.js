@@ -8,6 +8,7 @@ function createArray(length)
 	}
 	return arr;
 }
+var level=5;
 var start=1;
 var cols = 3;
 var rows = 3;
@@ -25,14 +26,16 @@ function setup ()
 	noStroke ();
 	grid = createArray (cols, rows);
 	answers= createArray(4)
-	for (let i = 0; i < cols; i++) {
-		for (let j= 0; j < rows ; j++) {
-			grid[i][j] = new Box((i+1) * 150, (1+j) * 150)
-			}
-	}
 	let Logics = new Logic() ;
-	Logics.logic();
+	Logics.logic(level);
 	coordinate = Logics.Arr;
+	console.log(coordinate.length)
+	for (let i2 = 0, len = coordinate.length; i2 < len; i2++) {
+		let i =	coordinate[i2][0]
+		let j =	coordinate[i2][1]
+
+		grid[i][j] = new Box((i+1) * 150, (1+j) * 150)
+	}
 	coord =  yield_keyword(coordinate);
 	check = coord.next()['value'];
 	u1=check[0];
@@ -66,10 +69,10 @@ function draw ()
 
 		//		var s = 'Start:' + mouseX +',' +mouseY
 		//		text(s,400,80);
-		for (let i = 0; i < cols; i++) {
-			for (let j= 0; j < rows ; j++) {
-				grid[i][j].show(255);
-			}
+		for (let i2 = 0, len = coordinate.length; i2 < len; i2++) {
+			let i =	coordinate[i2][0]
+			let j =	coordinate[i2][1]
+			grid[i][j].show(255);
 		}
 	}
 	else if(start == 0){
@@ -97,56 +100,67 @@ function draw ()
 	else if (start == 3) {
 		text('Wrong',400,80);
 	}
+	else if (start== 4) {
+		text('Correct',400,80);
+	}
 
 }
 var offbutton=1;
+var value_changed=false;
 function reset_failed_squence(){
 
 	for (let i8 = 0, len = arrcheck.length; i8 < len; i8++) {
 		if((arrcheck[i8][0]!=coordinate[i8][0]) || (arrcheck[i8][1]!=coordinate[i8][1])) {
 			console.log('Wrong sequence')
+			value_changed=true;
+			
 			start=3;
 			offbutton=0;
 			break;
-		}}
-
-
-	return;
+		}
+		console.log(coordinate.length)
+		console.log(arrcheck.length)
+		if(arrcheck.length==coordinate.length)
+			if ( value_changed==false){
+				start=4;
+				break;
+			}
+	}
 }
+
 
 
 function mousePressed() {
 	if (start==2){
-		for (let i = 0; i < cols; i++) {
-			var breaked=0;
-			for (let j= 0; j < rows ; j++) {
-				if (grid[i][j].contain(mouseX,mouseY)){
-					// console.log('i:'+i+',j:'+j)
-					// console.log('mouse-X:'+ mouseX + 'mouse-Y:' + mouseY)
-					//console.log('121')
+		for (let i2 = 0, len = coordinate.length; i2 < len; i2++) {
+			let i =	coordinate[i2][0]
+			let j =	coordinate[i2][1]
+			if (grid[i][j].contain(mouseX,mouseY)){
+				// console.log('i:'+i+',j:'+j)
+				// console.log('mouse-X:'+ mouseX + 'mouse-Y:' + mouseY)
+				//console.log('121')
 
-					var pushed=0;
-					for (let i7 = 0, len = arrcheck.length; i7 < len; i7++) {
-						if (arrcheck[i7][0]==i){
-							if(arrcheck[i7][1]==j){
-								pushed=1;
+				var pushed=0;
+				for (let i7 = 0, len = arrcheck.length; i7 < len; i7++) {
+					if (arrcheck[i7][0]==i){
+						if(arrcheck[i7][1]==j){
+							pushed=1;
 
-							}}
-
-					}
-					if (pushed==0) {arrcheck.push([i,j]);
-						console.log(arrcheck);
-						breaked=1;
-						break;
-					}
+						}}
 
 				}
+				if (pushed==0) {arrcheck.push([i,j]);
+					console.log(arrcheck);
+					breaked=1;
+					break;
+				}
+
 			}
-			//console.log(arrcheck);
-			if (breaked==1) break;
-
 		}
-		if (offbutton==1) reset_failed_squence();
-	}
+		//console.log(arrcheck);
 
+	}
+	if (offbutton==1) reset_failed_squence();
 }
+
+
